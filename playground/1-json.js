@@ -11,6 +11,7 @@ const fs = require('fs')
 
 
 
+
 //1. Read the file as buffer info
 const dataBuffer = fs.readFileSync('1-json.json');
 
@@ -24,5 +25,15 @@ const data = JSON.parse(dataJSON)
 data.name = 'Lamata'
 
 //5. I stringify the new data and re-write it in the original JSON file
-//(Para escribir un JSON file primero tenemos que "stringyfy it", y luego lo escribimos en el texto)
+//(Para sobreescribir un JSON file primero tenemos que "stringify it", y luego lo sobreescribimos)
 fs.writeFileSync('1-json.json', JSON.stringify(data))
+
+
+
+// Instrucciones para coger un .json file y poderlo usar en nuestro js:
+// const dataBuffer = fs.readFileSync('1-json.json');
+// const dataJSON = dataBuffer.toString();
+// const data = JSON.parse(dataJSON)
+
+//Instrucciones para sobreescribir un .json
+// fs.writeFileSync('1-json.json', JSON.stringify(data))
