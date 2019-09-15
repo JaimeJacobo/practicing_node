@@ -8,15 +8,13 @@ const getNotes = ()=>{
 
 const addNote = (title, body) =>{
   const data = loadNotes();
-  dataLength = data.length;
 
-  const filteredArray = data.filter((eachData)=>{
+  const duplicateNotes = data.filter((eachData)=>{
     return eachData.title === title
   })
 
-  if(filteredArray.length === 0){
+  if(duplicateNotes.length === 0){
     data.push({
-      position: dataLength,
       title: title,
       body: body
     })
@@ -28,23 +26,20 @@ const addNote = (title, body) =>{
 };
 
 const removeNote = (title)=>{
+
   const data = loadNotes();
 
   let filteredArray = data.filter((eachNote)=>{
-    return title === eachNote.title
+    return title !== eachNote.title
   });
 
-  if(filteredArray.length !== 0){
-    console.log('You want to delete the title with the position number ' + filteredArray[0].position)
-    console.log(filteredArray[0].position)
-    data.splice(filteredArray[0].position, 1)
-    console.log(data)
-
-    updateData(data);
-
+  if(data.length === filteredArray.length){
+    console.log(chalk.bgRed('There is no note with that title'))
   } else {
-    console.log(chalk.bgBlue('There is no note with that title'))
-  };
+
+    updateData(filteredArray);
+    console.log(chalk.bgGreen('Note removed succesfully'));
+  }
 };
 
 const loadNotes = () =>{
