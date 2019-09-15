@@ -8,23 +8,43 @@ const getNotes = ()=>{
 
 const addNote = (title, body) =>{
   const data = loadNotes();
-  dataLength = data.length + 1;
+  dataLength = data.length;
 
-  const duplicateNotes = data.filter((eachData)=>{
+  const filteredArray = data.filter((eachData)=>{
     return eachData.title === title
   })
 
-  if(duplicateNotes.length === 0){
+  if(filteredArray.length === 0){
     data.push({
-      id: dataLength,
+      position: dataLength,
       title: title,
       body: body
     })
 
-    updateNotes(data)
+    updateData(data)
   } else {
     console.log(chalk.bgRed('Note title taken'))
   }
+};
+
+const removeNote = (title)=>{
+  const data = loadNotes();
+
+  let filteredArray = data.filter((eachNote)=>{
+    return title === eachNote.title
+  });
+
+  if(filteredArray.length !== 0){
+    console.log('You want to delete the title with the position number ' + filteredArray[0].position)
+    console.log(filteredArray[0].position)
+    data.splice(filteredArray[0].position, 1)
+    console.log(data)
+
+    updateData(data);
+
+  } else {
+    console.log(chalk.bgBlue('There is no note with that title'))
+  };
 };
 
 const loadNotes = () =>{
@@ -41,11 +61,13 @@ const loadNotes = () =>{
   }
 }
 
-const updateNotes = (notes) =>{
-  fs.writeFileSync('notes.json', JSON.stringify(notes))
+const updateData = (newData) =>{
+  fs.writeFileSync('notes.json', JSON.stringify(newData))
 }
 
+//This modules are being exported as 'notes'
 module.exports = {
   getNotes: getNotes,
-  addNote: addNote
+  addNote: addNote,
+  removeNote: removeNote
 }
