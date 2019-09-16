@@ -9,11 +9,11 @@ const getNotes = ()=>{
 const addNote = (title, body) =>{
   const data = loadNotes();
 
-  const duplicateNotes = data.filter((eachData)=>{
+  const duplicateNote = data.find((eachData)=>{
     return eachData.title === title
   })
 
-  if(duplicateNotes.length === 0){
+  if(!duplicateNote){
     data.push({
       title: title,
       body: body
@@ -38,9 +38,35 @@ const removeNote = (title)=>{
   } else {
 
     updateData(filteredArray);
-    console.log(chalk.bgGreen('Note removed succesfully'));
+    console.log(chalk.bgGreen.black('Note removed succesfully'));
   }
 };
+
+const listNotes = ()=>{
+  const data = loadNotes();
+
+  console.log(chalk.bgMagenta.black('Your notes'))
+
+  data.forEach((note)=>{
+    console.log(note.title)
+  });
+  
+}
+
+const readNote = (title)=>{
+  const data = loadNotes();
+  console.log(title)
+  const matchedNote = data.find((eachData)=>{
+    return title === eachData.title
+  })
+
+  if(matchedNote){
+    console.log(chalk.cyan('Title: ' + matchedNote.title.toUpperCase()))
+    console.log(chalk.magenta('Body: ' + matchedNote.body))
+  } else {
+    console.log(chalk.red('There is no note with that name title'))
+  }
+}
 
 const loadNotes = () =>{
   //If the JSON file already exists, use it
@@ -64,5 +90,7 @@ const updateData = (newData) =>{
 module.exports = {
   getNotes: getNotes,
   addNote: addNote,
-  removeNote: removeNote
+  removeNote: removeNote,
+  listNotes: listNotes,
+  readNote: readNote
 }
